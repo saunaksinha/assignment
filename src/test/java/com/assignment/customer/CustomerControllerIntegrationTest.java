@@ -17,6 +17,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -118,6 +119,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		ResponseEntity<OutputObject> response = restTemplate.exchange(
 				createURLWithPort("/customers/process"),
 				HttpMethod.POST, entity, OutputObject.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals("SUCCESSFUL", response.getBody().getResult());
 	}
 	
@@ -134,6 +136,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		ResponseEntity<OutputObject> response = restTemplate.exchange(
 				createURLWithPort("/customers/process"),
 				HttpMethod.POST, entity, OutputObject.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals("DUPLICATE_REFERENCE", response.getBody().getResult());
 	}
 	
@@ -150,6 +153,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		ResponseEntity<OutputObject> response = restTemplate.exchange(
 				createURLWithPort("/customers/process"),
 				HttpMethod.POST, entity, OutputObject.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals("INCORRECT_END_BALANCE", response.getBody().getResult());
 	}
 	
@@ -166,6 +170,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		ResponseEntity<OutputObject> response = restTemplate.exchange(
 				createURLWithPort("/customers/process"),
 				HttpMethod.POST, entity, OutputObject.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals("DUPLICATE_REFERENCE_INCORRECT_END_BALANCE", response.getBody().getResult());
 	}
 	
@@ -182,6 +187,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		ResponseEntity<OutputObject> response = restTemplate.exchange(
 				createURLWithPort("/customers/process"),
 				HttpMethod.POST, entity, OutputObject.class);
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals("BAD_REQUEST", response.getBody().getResult());
 	}
 	

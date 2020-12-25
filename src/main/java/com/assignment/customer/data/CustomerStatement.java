@@ -3,6 +3,8 @@ package com.assignment.customer.data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 import lombok.Data;
 
 /**
