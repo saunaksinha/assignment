@@ -3,8 +3,6 @@ package com.assignment.customer.data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-
 import lombok.Data;
 
 /**
@@ -14,6 +12,11 @@ import lombok.Data;
 @Data
 public class CustomerStatement implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2195208095271001929L;
+
 	private Integer transactionReference;
 	
 	private String accountNumber;
