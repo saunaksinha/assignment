@@ -1,26 +1,30 @@
 package com.assignment.customer.controller;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.customer.data.CustomerStatement;
 import com.assignment.customer.data.ErrorRecord;
 import com.assignment.customer.data.OutputObject;
+import com.assignment.customer.service.CustomerService;
 
-@RequestMapping("/customer")
+@RequestMapping("/customers")
 @RestController
 public class CustomerController {
+	
+	@Autowired
+	CustomerService customerService;
 
 	@RequestMapping("/process")
-	public @ResponseBody OutputObject processCustomerRecord (@RequestBody List<CustomerStatement> customerStatements) {
+	public ResponseEntity <?> processCustomerRecord (@RequestBody List<CustomerStatement> customerStatements) {
 		
 		try {
 			System.out.println("processCustomerRecord");
@@ -28,81 +32,27 @@ public class CustomerController {
 			OutputObject outputObject = new OutputObject();
 			Iterator <CustomerStatement> customerStatementList = customerStatements.iterator();
 			while(customerStatementList.hasNext()) {
-				outputObject = validateInputObject(customerStatementList.next(),errorRecords,outputObject);
+				outputObject = customerService.validateInputObject(customerStatementList.next(),errorRecords,outputObject);
 			}
 			
 			if (outputObject.getResult() == "BAD_REQUEST") {
-				return outputObject;
+				return new ResponseEntity<>(outputObject,HttpStatus.BAD_REQUEST);
 			}
 			
-			outputObject = processCustomerRecords(customerStatements, errorRecords, outputObject);
-			return outputObject;
+			customerService.processCustomerRecords(customerStatements, errorRecords, outputObject);
+			return new ResponseEntity<>(outputObject,HttpStatus.OK);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			OutputObject outputObjectException = new OutputObject();
 			outputObjectException.setResult("INTERNAL_SERVER_ERROR");
-			return outputObjectException;
+			return new ResponseEntity<>(outputObjectException,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	public OutputObject processCustomerRecords(List<CustomerStatement> customerStatements, List<ErrorRecord> errorRecords,
-			OutputObject outputObject)
-	{ 
-	  final Set<Integer> setToReturn = new HashSet<>(); 
-	  final Set<Integer> set1 = new HashSet<>();
+	
 
-	  for (CustomerStatement customerStatement : customerStatements)
-	  {
-	   
-	   //Check if INCORRECT_END_BALANCE	  
-	   if ((customerStatement.getStartBalance().add(customerStatement.getMutation())
-					.compareTo(customerStatement.getEndBalance())) != 0) {
-		   
-		   ErrorRecord errorRecord = new ErrorRecord();
-			errorRecord.setAccountNumber(customerStatement.getAccountNumber());
-			errorRecord.setReference(customerStatement.getTransactionReference().toString());
-			errorRecords.add(errorRecord);
-			if (outputObject.getResult() == null) {
-			outputObject.setResult("INCORRECT_END_BALANCE");
-			} else if (outputObject.getResult() == "DUPLICATE_REFERENCE") {
-				outputObject.setResult("DUPLICATE_REFERENCE_INCORRECT_END_BALANCE");
-			}
-			outputObject.setErrorRecords(errorRecords);
-	   }
-		
-	  //Check if DUPLICATE_REFERENCE
-		if (!set1.add(customerStatement.getTransactionReference())) {
-	    setToReturn.add(customerStatement.getTransactionReference());
-	    ErrorRecord errorRecord = new ErrorRecord();
-		errorRecord.setAccountNumber(customerStatement.getAccountNumber());
-		errorRecord.setReference(customerStatement.getTransactionReference().toString());
-		errorRecords.add(errorRecord);
-		outputObject.setErrorRecords(errorRecords);
-		if (outputObject.getResult() == null) {
-			outputObject.setResult("DUPLICATE_REFERENCE");
-		}
-		else if (outputObject.getResult() == "INCORRECT_END_BALANCE") {
-			outputObject.setResult("DUPLICATE_REFERENCE_INCORRECT_END_BALANCE");
-		}
-	   }
-	  }
-	  
-	  if (outputObject.getResult() == null) {
-		  outputObject.setResult("SUCCESSFUL");
-	  }
-	  return outputObject;
-	}
-
-	private OutputObject validateInputObject(CustomerStatement customerStatement, List<ErrorRecord> errorRecords, OutputObject outputObject) {
-		
-		if (customerStatement.getTransactionReference() == null || customerStatement.getAccountNumber() == null || customerStatement.getStartBalance() == null
-				|| customerStatement.getMutation() == null || customerStatement.getDescription() == null || customerStatement.getEndBalance() == null) {
-			outputObject.setResult("BAD_REQUEST");
-		}
-		return outputObject;
-		
-	}
 	
 	/*private OutputObject checkDuplicateReference(CustomerStatement customerStatement, List<ErrorRecord> errorRecords,
 			OutputObject outputObject) {
