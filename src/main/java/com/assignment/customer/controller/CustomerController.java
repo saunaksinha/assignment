@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +18,12 @@ import com.assignment.customer.data.ErrorRecord;
 import com.assignment.customer.data.OutputObject;
 import com.assignment.customer.service.CustomerService;
 
+
 @RequestMapping("/customers")
 @RestController
 public class CustomerController {
+	
+	Logger log = LoggerFactory.getLogger(CustomerController.class);
 	
 	@Autowired
 	CustomerService customerService;
@@ -27,7 +32,7 @@ public class CustomerController {
 	public ResponseEntity <?> processCustomerRecord (@RequestBody List<CustomerStatement> customerStatements) {
 		
 		try {
-			System.out.println("processCustomerRecord");
+			log.info("#######Enter processCustomerRecord()######",CustomerController.class);
 			List <ErrorRecord> errorRecords = new ArrayList<ErrorRecord>();
 			OutputObject outputObject = new OutputObject();
 			Iterator <CustomerStatement> customerStatementList = customerStatements.iterator();

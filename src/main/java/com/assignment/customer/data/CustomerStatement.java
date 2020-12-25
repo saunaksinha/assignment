@@ -1,11 +1,12 @@
 package com.assignment.customer.data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import lombok.Data;
 
 @Data
-public class CustomerStatement {
+public class CustomerStatement implements Serializable {
 	
 	private Integer transactionReference;
 	

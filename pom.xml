@@ -64,6 +64,7 @@
 		    <artifactId>mockito-junit-jupiter</artifactId>
 		    <scope>test</scope>
 		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -80,6 +81,26 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
+                <executions>
+                    <execution>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>none</exclude>
+                            </excludes>
+                            <includes>
+                                <include>**/*IntegrationTest</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 

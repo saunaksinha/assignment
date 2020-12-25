@@ -15,3 +15,49 @@ The following guides illustrate how to use some features concretely:
 * [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
 * [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
 
+
+
+Input Payload
+
+[
+	{
+	"transactionReference": 121,	
+	"accountNumber": "abc",
+	"startBalance": 100.00,
+	"mutation": 11.01,
+	"description": "you are here",
+	"endBalance": 111.01
+	},
+	{
+	"transactionReference": 121,
+	"accountNumber": "abc1",
+	"startBalance": 100.00,
+	"mutation": 11.01,
+	"description": "you are here",
+	"endBalance": 111.01
+	},
+	{
+	"transactionReference": 123,
+	"accountNumber": "abc2",
+	"startBalance": 100.00,
+	"mutation": 11.00,
+	"description": "you are here",
+	"endBalance": 111.00
+	},
+	{
+	"transactionReference": 112,
+	"accountNumber": "abc4",
+	"startBalance": 100.00,
+	"mutation": 11.00,
+	"description": "you are here",
+	"endBalance": 111.00
+	},
+	{
+	"transactionReference": 111,
+	"accountNumber": "abc3",
+	"startBalance": 100.00,
+	"mutation": 11.00,
+	"description": "you are here",
+	"endBalance": 111.01
+	}
+]
