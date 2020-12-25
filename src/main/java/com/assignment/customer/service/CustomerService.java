@@ -4,15 +4,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.assignment.customer.data.CustomerStatement;
 import com.assignment.customer.data.ErrorRecord;
 import com.assignment.customer.data.OutputObject;
 
+import static com.assignment.customer.common.ApplicationConstants.SUCCESSFUL;
+import static com.assignment.customer.common.ApplicationConstants.BAD_REQUEST;
+import static com.assignment.customer.common.ApplicationConstants.DUPLICATE_REFERENCE;
+import static com.assignment.customer.common.ApplicationConstants.DUPLICATE_REFERENCE_INCORRECT_END_BALANCE;
+import static com.assignment.customer.common.ApplicationConstants.INCORRECT_END_BALANCE;
+
 @Service
 public class CustomerService {
 
+	Logger log = LoggerFactory.getLogger(CustomerService.class);
 	/*
 	 * This method does the initial validation for the Input object. 
 	 */
@@ -20,7 +29,7 @@ public class CustomerService {
 		
 		if (customerStatement.getTransactionReference() == null || customerStatement.getAccountNumber() == null || customerStatement.getStartBalance() == null
 				|| customerStatement.getMutation() == null || customerStatement.getDescription() == null || customerStatement.getEndBalance() == null) {
-			outputObject.setResult("BAD_REQUEST");
+			outputObject.setResult(BAD_REQUEST);
 		}
 		return outputObject;
 		
@@ -48,9 +57,9 @@ public class CustomerService {
 			errorRecord.setReference(customerStatement.getTransactionReference().toString());
 			errorRecords.add(errorRecord);
 			if (outputObject.getResult() == null) {
-			outputObject.setResult("INCORRECT_END_BALANCE");
-			} else if (outputObject.getResult() == "DUPLICATE_REFERENCE") {
-				outputObject.setResult("DUPLICATE_REFERENCE_INCORRECT_END_BALANCE");
+			outputObject.setResult(INCORRECT_END_BALANCE);
+			} else if (outputObject.getResult() == DUPLICATE_REFERENCE) {
+				outputObject.setResult(DUPLICATE_REFERENCE_INCORRECT_END_BALANCE);
 			}
 			outputObject.setErrorRecords(errorRecords);
 	   }
@@ -64,16 +73,16 @@ public class CustomerService {
 		errorRecords.add(errorRecord);
 		outputObject.setErrorRecords(errorRecords);
 		if (outputObject.getResult() == null) {
-			outputObject.setResult("DUPLICATE_REFERENCE");
+			outputObject.setResult(DUPLICATE_REFERENCE);
 		}
-		else if (outputObject.getResult() == "INCORRECT_END_BALANCE") {
-			outputObject.setResult("DUPLICATE_REFERENCE_INCORRECT_END_BALANCE");
+		else if (outputObject.getResult() == INCORRECT_END_BALANCE) {
+			outputObject.setResult(DUPLICATE_REFERENCE_INCORRECT_END_BALANCE);
 		}
 	   }
 	  }
 	  
 	  if (outputObject.getResult() == null) {
-		  outputObject.setResult("SUCCESSFUL");
+		  outputObject.setResult(SUCCESSFUL);
 	  }
 	  return outputObject;
 	}

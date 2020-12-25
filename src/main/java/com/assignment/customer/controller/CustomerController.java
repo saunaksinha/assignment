@@ -18,7 +18,13 @@ import com.assignment.customer.data.ErrorRecord;
 import com.assignment.customer.data.OutputObject;
 import com.assignment.customer.service.CustomerService;
 
+import static com.assignment.customer.common.ApplicationConstants.BAD_REQUEST;
+import static com.assignment.customer.common.ApplicationConstants.INTERNAL_SERVER_ERROR;
 
+/**
+ * @author Payel
+ *
+ */
 @RequestMapping("/customers")
 @RestController
 public class CustomerController {
@@ -40,7 +46,7 @@ public class CustomerController {
 				outputObject = customerService.validateInputObject(customerStatementList.next(),errorRecords,outputObject);
 			}
 			
-			if (outputObject.getResult() == "BAD_REQUEST") {
+			if (BAD_REQUEST.equals(outputObject.getResult())) {
 				return new ResponseEntity<>(outputObject,HttpStatus.BAD_REQUEST);
 			}
 			
@@ -48,10 +54,9 @@ public class CustomerController {
 			return new ResponseEntity<>(outputObject,HttpStatus.OK);
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getMessage());
 			OutputObject outputObjectException = new OutputObject();
-			outputObjectException.setResult("INTERNAL_SERVER_ERROR");
+			outputObjectException.setResult(INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(outputObjectException,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.json.JsonParseException;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -21,9 +23,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.assignment.customer.data.CustomerStatement;
 import com.assignment.customer.data.OutputObject;
 
+
+/**
+ * @author Payel
+ *
+ */
+@SuppressWarnings("unchecked")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CustomerStatementProcessorApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CustomerControllerIntegrationTest extends CustomerStatementProcessorTests {
+	
+	Logger log = LoggerFactory.getLogger(CustomerControllerIntegrationTest.class);
 
 	String successfulJson = "[{\n" + "	\"transactionReference\": \"1234\",\n" + "	\"accountNumber\": \"abc\",\n"
 			+ "	\"startBalance\": 100.00,\n" + "	\"mutation\": 11.01,\n" + "	\"description\": \"you are here\",\n"
@@ -91,20 +101,6 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 
 	HttpHeaders headers = new HttpHeaders();
 
-	/*@Test
-	public void testRetrieveStudentCourse() {
-
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-
-		ResponseEntity<String> response = restTemplate.exchange(
-				createURLWithPort("/students/Student1/courses/Course1"),
-				HttpMethod.GET, entity, String.class);
-
-		String expected = "{id:Course1,name:Spring,description:10Steps}";
-
-		JSONAssert.assertEquals(expected, response.getBody(), false);
-	}*/
-
 	private String createURLWithPort(String uri) {
 		return "http://localhost:" + port + uri;
 	}
@@ -115,8 +111,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		try {
 			customerStatement = super.mapFromJson(successfulJson, ArrayList.class);
 		} catch (JsonParseException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		HttpEntity<List<CustomerStatement>> entity = new HttpEntity<List<CustomerStatement>>(customerStatement, headers);
 
@@ -132,8 +127,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		try {
 			customerStatement = super.mapFromJson(duplicateReference, ArrayList.class);
 		} catch (JsonParseException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		HttpEntity<List<CustomerStatement>> entity = new HttpEntity<List<CustomerStatement>>(customerStatement, headers);
 
@@ -149,8 +143,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		try {
 			customerStatement = super.mapFromJson(incorrectEndBalanceJson, ArrayList.class);
 		} catch (JsonParseException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		HttpEntity<List<CustomerStatement>> entity = new HttpEntity<List<CustomerStatement>>(customerStatement, headers);
 
@@ -166,8 +159,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		try {
 			customerStatement = super.mapFromJson(duplicateReferenceIncorrectEndBalanceJson, ArrayList.class);
 		} catch (JsonParseException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		HttpEntity<List<CustomerStatement>> entity = new HttpEntity<List<CustomerStatement>>(customerStatement, headers);
 
@@ -183,8 +175,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		try {
 			customerStatement = super.mapFromJson(badRequestJson, ArrayList.class);
 		} catch (JsonParseException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		HttpEntity<List<CustomerStatement>> entity = new HttpEntity<List<CustomerStatement>>(customerStatement, headers);
 

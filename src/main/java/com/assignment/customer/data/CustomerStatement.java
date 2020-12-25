@@ -5,6 +5,10 @@ import java.math.BigDecimal;
 
 import lombok.Data;
 
+/**
+ * @author Payel
+ *
+ */
 @Data
 public class CustomerStatement implements Serializable {
 	

@@ -4,6 +4,10 @@ import java.util.List;
 
 import lombok.Data;
 
+/**
+ * @author Payel
+ *
+ */
 @Data
 public class OutputObject {
 
@@ -13,7 +17,6 @@ public class OutputObject {
 	}
 	
 	public OutputObject() {
-		// TODO Auto-generated constructor stub
 	}
 
 	private String result;
