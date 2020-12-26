@@ -22,54 +22,10 @@ JUnit 5
 
 Operations
 POST : /customers/process-statement - For validating and processing list of Customer Statements
-Sample data
-Following is a sample valid request payload, that can be used to validate all test scenarios:
-[
-	{
-    	"transactionReference": 121,	
-	"accountNumber": "SAMPLE_ACCOUNT_1",
-	"startBalance": 100.00,
-	"mutation": 11.01,
-	"description": "Transaction Statement 1",
-	"endBalance": 111.01
-	},
-	{
-	"transactionReference": 122,
-	"accountNumber": "SAMPLE_ACCOUNT_1",
-	"startBalance": 100.00,
-	"mutation": -12.00,
-	"description": "Transaction Statement 2",
-	"endBalance": 88.00
-	},
-	{
-	"transactionReference": 123,
-	"accountNumber": "SAMPLE_ACCOUNT_1",
-	"startBalance": 100.00,
-	"mutation": 11.00,
-	"description": "Transaction Statement 3",
-	"endBalance": 111.00
-	},
-	{
-	"transactionReference": 112,
-	"accountNumber": "SAMPLE_ACCOUNT_2",
-	"startBalance": 100.00,
-	"mutation": -20.00,
-	"description": "Transaction Statement 4",
-	"endBalance": 80.00
-	},
-	{
-	"transactionReference": 111,
-	"accountNumber": "SAMPLE_ACCOUNT_2",
-	"startBalance": 100.00,
-	"mutation": 11.00,
-	"description": "Transaction Statement 5",
-	"endBalance": 111.00
-	}
-]
 
 Test Cases: 
 
-I have considered 6 test scenarios for this implementation. Scenario 6 (Internal Server Error , HTTPStatusCode 500 has been achieved by doing some hardcoding. If accountNumber in the payload is sent as TEST_INTERNAL_SERVER_ERROR , then application will throw InternalServerError with code 500. 
+I have considered 6 test scenarios for this implementation. Scenario 6 - Internal Server Error , HTTPStatusCode 500 has been achieved by doing some hardcoding. If accountNumber in the payload is sent as TEST_INTERNAL_SERVER_ERROR , then application will throw InternalServerError with code 500. 
 
 		| Http Status Code  | Condition                                                         |  Response format |
 		|---                |---                                                                |---               |
