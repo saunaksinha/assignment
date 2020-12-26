@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "response.successful",
+    "type": "java.lang.String",
+    "description": "A description for 'response.successful'"
+  },
+  {
+    "name": "response.duplicate_reference",
+    "type": "java.lang.String",
+    "description": "A description for 'response.duplicate_reference'"
+  },
+  {
+    "name": "response.incorrect_end_balance",
+    "type": "java.lang.String",
+    "description": "A description for 'response.incorrect_end_balance'"
+  },
+  {
+    "name": "response.duplicate_reference_incorrect_end_balance",
+    "type": "java.lang.String",
+    "description": "A description for 'response.duplicate_reference_incorrect_end_balance'"
+  },
+  {
+    "name": "response.bad_request",
+    "type": "java.lang.String",
+    "description": "A description for 'response.bad_request'"
+  },
+  {
+    "name": "response.internal_server_error",
+    "type": "java.lang.String",
+    "description": "A description for 'response.internal_server_error'"
+  }
+]}
