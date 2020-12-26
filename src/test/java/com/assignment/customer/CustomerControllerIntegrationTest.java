@@ -130,7 +130,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		HttpEntity<List<CustomerStatement>> entity = new HttpEntity<List<CustomerStatement>>(customerStatement,
 				headers);
 
-		ResponseEntity<PostProcessingResult> response = restTemplate.exchange(createURLWithPort("/customers/process"),
+		ResponseEntity<PostProcessingResult> response = restTemplate.exchange(createURLWithPort("/customers/process-statement"),
 				HttpMethod.POST, entity, PostProcessingResult.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(SUCCESSFUL, response.getBody().getResult());
@@ -147,7 +147,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		HttpEntity<List<CustomerStatement>> entity = new HttpEntity<List<CustomerStatement>>(customerStatement,
 				headers);
 
-		ResponseEntity<PostProcessingResult> response = restTemplate.exchange(createURLWithPort("/customers/process"),
+		ResponseEntity<PostProcessingResult> response = restTemplate.exchange(createURLWithPort("/customers/process-statement"),
 				HttpMethod.POST, entity, PostProcessingResult.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(DUPLICATE_REFERENCE, response.getBody().getResult());
@@ -164,7 +164,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		HttpEntity<List<CustomerStatement>> entity = new HttpEntity<List<CustomerStatement>>(customerStatement,
 				headers);
 
-		ResponseEntity<PostProcessingResult> response = restTemplate.exchange(createURLWithPort("/customers/process"),
+		ResponseEntity<PostProcessingResult> response = restTemplate.exchange(createURLWithPort("/customers/process-statement"),
 				HttpMethod.POST, entity, PostProcessingResult.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(INCORRECT_END_BALANCE, response.getBody().getResult());
@@ -181,7 +181,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		HttpEntity<List<CustomerStatement>> entity = new HttpEntity<List<CustomerStatement>>(customerStatement,
 				headers);
 
-		ResponseEntity<PostProcessingResult> response = restTemplate.exchange(createURLWithPort("/customers/process"),
+		ResponseEntity<PostProcessingResult> response = restTemplate.exchange(createURLWithPort("/customers/process-statement"),
 				HttpMethod.POST, entity, PostProcessingResult.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(DUPLICATE_REFERENCE_INCORRECT_END_BALANCE, response.getBody().getResult());
@@ -198,7 +198,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		HttpEntity<List<CustomerStatement>> entity = new HttpEntity<List<CustomerStatement>>(customerStatement,
 				headers);
 
-		ResponseEntity<PostProcessingResult> response = restTemplate.exchange(createURLWithPort("/customers/process"),
+		ResponseEntity<PostProcessingResult> response = restTemplate.exchange(createURLWithPort("/customers/process-statement"),
 				HttpMethod.POST, entity, PostProcessingResult.class);
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(BAD_REQUEST, response.getBody().getResult());
@@ -215,7 +215,7 @@ public class CustomerControllerIntegrationTest extends CustomerStatementProcesso
 		HttpEntity<List<CustomerStatement>> entity = new HttpEntity<List<CustomerStatement>>(customerStatement,
 				headers);
 
-		ResponseEntity<PostProcessingResult> response = restTemplate.exchange(createURLWithPort("/customers/process"),
+		ResponseEntity<PostProcessingResult> response = restTemplate.exchange(createURLWithPort("/customers/process-statement"),
 				HttpMethod.POST, entity, PostProcessingResult.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(INTERNAL_SERVER_ERROR, response.getBody().getResult());

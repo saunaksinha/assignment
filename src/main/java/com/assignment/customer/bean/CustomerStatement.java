@@ -11,7 +11,7 @@ import lombok.Data;
  *
  */
 @Data
-public class CustomerStatement   {
+public class CustomerStatement implements Serializable{
 	
 	private static final long serialVersionUID = -2195208095271001929L;
 

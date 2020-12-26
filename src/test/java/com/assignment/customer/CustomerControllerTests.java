@@ -94,7 +94,7 @@ public class CustomerControllerTests extends CustomerStatementProcessorTests {
 
 	@Test
 	public void testSuccessfullFLow() throws Exception {
-		String uri = "/customers/process";
+		String uri = "/customers/process-statement";
 		MvcResult mvcResult = mockMvc.perform(
 				MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON_VALUE).content(successfulJson))
 				.andReturn();
@@ -107,7 +107,7 @@ public class CustomerControllerTests extends CustomerStatementProcessorTests {
 
 	@Test
 	public void testDuplicateReferenceFLow() throws Exception {
-		String uri = "/customers/process";
+		String uri = "/customers/process-statement";
 		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(uri)
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(duplicateReference)).andReturn();
 		int status = mvcResult.getResponse().getStatus();
@@ -119,7 +119,7 @@ public class CustomerControllerTests extends CustomerStatementProcessorTests {
 
 	@Test
 	public void testIncorrectEndBalanceFLow() throws Exception {
-		String uri = "/customers/process";
+		String uri = "/customers/process-statement";
 		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(uri)
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(incorrectEndBalanceJson)).andReturn();
 		int status = mvcResult.getResponse().getStatus();
@@ -131,7 +131,7 @@ public class CustomerControllerTests extends CustomerStatementProcessorTests {
 
 	@Test
 	public void testDuplicateReferenceIncorrectEndBalanceFlow() throws Exception {
-		String uri = "/customers/process";
+		String uri = "/customers/process-statement";
 		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(uri)
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content(duplicateReferenceIncorrectEndBalanceJson))
 				.andReturn();
@@ -144,7 +144,7 @@ public class CustomerControllerTests extends CustomerStatementProcessorTests {
 
 	@Test
 	public void testBadRequestFlow() throws Exception {
-		String uri = "/customers/process";
+		String uri = "/customers/process-statement";
 		MvcResult mvcResult = mockMvc.perform(
 				MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON_VALUE).content(badRequestJson))
 				.andReturn();
@@ -157,7 +157,7 @@ public class CustomerControllerTests extends CustomerStatementProcessorTests {
 	
 	@Test
 	public void testInternalServerErrorFlow() throws Exception {
-		String uri = "/customers/process";
+		String uri = "/customers/process-statement";
 		MvcResult mvcResult = mockMvc.perform(
 				MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON_VALUE).content(internalServerErrorJson))
 				.andReturn();
