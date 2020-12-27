@@ -14,7 +14,11 @@ This API is built to address the following error scenarios as part of customer s
 
 The response JSON objects are prepared adhering to the sample JSON provided in the requirement. 
 
-This application has been build using Spring Boot 2. 
+The server.port has also been overridden in the application.properties file to 8090, thereby application will run on port 8090 instead 8080(default). 
+
+This project has Lombok added as dependency , hence same need to be applied to the IDE before running test cases/ build from the IDE. I was using STS and I had to install Lombok jar into STS. 
+
+This application has been built using Spring Boot 2. 
 Following is the technology stack that has been used with respect to the application:
 Java 11
 Spring Boot 2
@@ -25,11 +29,11 @@ POST : /customers/process-statement - For validating and processing list of Cust
 
 Test Cases: 
 
-I have considered 6 test scenarios for this implementation. Scenario 6 - Internal Server Error , HTTPStatusCode 500 has been achieved by doing some hardcoding. If accountNumber in the payload is sent as TEST_INTERNAL_SERVER_ERROR , then application will throw InternalServerError with code 500. 
+I have considered 6 test scenarios for this implementation. Scenario 6 - Internal Server Error , HTTPStatusCode 500 has been achieved by doing some additional logic. If accountNumber in the payload is sent as TEST_INTERNAL_SERVER_ERROR (this value is configuration driven, it can be modified by application.properties file), then application will throw InternalServerError with code 500. 
 
 		| Http Status Code  | Condition                                                         |  Response format |
 		|---                |---                                                                |---               |
-Scenario 1> 	| 200               | When there are no duplicate reference and correct end balance     | `{"result" : "SUCCESSFUL", "errorRecords" : []}`|
+Scenario 1> 	| 200               |When there are no duplicate reference and correct end balance      | `{"result" : "SUCCESSFUL", "errorRecords" : []}`|
 Scenario 2> 	| 200               |When there are duplicate reference and correct balance             |[duplicateReferenceAndcorrectBalance Json](./duplicateReferenceAndcorrectBalance.json)|
 Scenario 3>	| 200               |When there are no duplicate reference and In correct balance       |[IncorrectBalance Json](./IncorrectBalance.json)|
 Scenario 4>	| 200               |When there are duplicate reference and In correct balance          |[duplicateReferenceAndIncorrectBalance Json](./duplicateReferenceAndIncorrectBalance.json)|
@@ -219,8 +223,6 @@ Installation
 The application is build with Spring Boot 2 and would get deployed within the SpringBoot contained Tomcat server. Please build and run the customer-statement-processor-0.0.1-SNAPSHOT.jar. 
 Use below command to start locally
 java -jar target/customer-statement-processor-0.0.1-SNAPSHOT.jar
-
-P.S - This project has Lombok added as dependency , hence same need to be applied to the IDE before running test cases/ build from the IDE. I was using STS and I had to install Lombok jar into STS. 
 
 Contributor
 Payel Saha --- payel.saha85@gmail.com
