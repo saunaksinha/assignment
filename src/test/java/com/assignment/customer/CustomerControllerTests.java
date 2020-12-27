@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.assignment.customer.bean.PostProcessingResult;
 
 /**
+ * JUnit test cases for unit testing
  * @author Payel
  *
  */
@@ -92,6 +93,9 @@ public class CustomerControllerTests extends CustomerStatementProcessorTests {
 			+ "	\"startBalance\": 100.00,\n" + "	\"mutation\": 11.01,\n" + "	\"description\": \"you are here\",\n"
 			+ "	\"endBalance\": 111.01\n" + "	}]";
 
+	/**
+	 * Method to run the test case for a valid payload
+	 */
 	@Test
 	public void testSuccessfullFLow() throws Exception {
 		String uri = "/customers/process-statement";
@@ -105,6 +109,9 @@ public class CustomerControllerTests extends CustomerStatementProcessorTests {
 		assertEquals(SUCCESSFUL, response.getResult());
 	}
 
+	/**
+	 * Method to run the test case for a payload containing duplicate transaction reference numbers
+	 */
 	@Test
 	public void testDuplicateReferenceFLow() throws Exception {
 		String uri = "/customers/process-statement";
@@ -117,6 +124,9 @@ public class CustomerControllerTests extends CustomerStatementProcessorTests {
 		assertEquals(DUPLICATE_REFERENCE, response.getResult());
 	}
 
+	/**
+	 * Method to run the test case for a payload containing incorrect value as end balance for an individual transaction reference
+	 */
 	@Test
 	public void testIncorrectEndBalanceFLow() throws Exception {
 		String uri = "/customers/process-statement";
@@ -129,6 +139,9 @@ public class CustomerControllerTests extends CustomerStatementProcessorTests {
 		assertEquals(INCORRECT_END_BALANCE, response.getResult());
 	}
 
+	/**
+	 * Method to run the test case for a payload containing both duplicate transaction reference numbers and incorrect data as end balance
+	 */
 	@Test
 	public void testDuplicateReferenceIncorrectEndBalanceFlow() throws Exception {
 		String uri = "/customers/process-statement";
@@ -142,6 +155,9 @@ public class CustomerControllerTests extends CustomerStatementProcessorTests {
 		assertEquals(DUPLICATE_REFERENCE_INCORRECT_END_BALANCE, response.getResult());
 	}
 
+	/**
+	 * Method to run the test case for a payload with incorrect JSON request format
+	 */
 	@Test
 	public void testBadRequestFlow() throws Exception {
 		String uri = "/customers/process-statement";
@@ -155,6 +171,10 @@ public class CustomerControllerTests extends CustomerStatementProcessorTests {
 		assertEquals(BAD_REQUEST, response.getResult());
 	}
 	
+	/**
+	 * Method to run the test case for a payload causing Internal Server Error, 
+	 * in our case it is a specific value of account number derived from properties file that would account for this test case
+	 */
 	@Test
 	public void testInternalServerErrorFlow() throws Exception {
 		String uri = "/customers/process-statement";

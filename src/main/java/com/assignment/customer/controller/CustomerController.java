@@ -34,7 +34,7 @@ import com.assignment.customer.service.CustomerService;
 public class CustomerController {
 
 	Logger log = LoggerFactory.getLogger(CustomerController.class);
-
+	
 	@Autowired
 	CustomerService customerService;
 
@@ -49,7 +49,8 @@ public class CustomerController {
 	public ResponseEntity<?> processCustomerRecord(@RequestBody List<CustomerStatement> customerStatements) {
 
 		try {
-			log.info("#######Enter processCustomerRecord()######", CustomerController.class);
+			log.info("#######Enter processCustomerRecord()######",CustomerController.class);
+			
 			List<ErrorRecords> errorRecords = new ArrayList<ErrorRecords>();
 			PostProcessingResult finalResultPostProcessing = new PostProcessingResult();
 

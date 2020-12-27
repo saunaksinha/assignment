@@ -6,7 +6,7 @@ import static com.assignment.customer.common.ApplicationConstants.DUPLICATE_REFE
 import static com.assignment.customer.common.ApplicationConstants.INCORRECT_END_BALANCE;
 import static com.assignment.customer.common.ApplicationConstants.SUCCESSFUL;
 import static com.assignment.customer.common.ApplicationConstants.INTERNAL_SERVER_ERROR;
-import static com.assignment.customer.common.ApplicationConstants.TEST_INTERNAL_SERVER_ERROR;
+import static com.assignment.customer.common.ApplicationConstants.RETRIEVE_INTERNAL_SERVER_TEST_PROPERTY_DATA;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +23,11 @@ import com.assignment.customer.bean.PostProcessingResult;
 import com.assignment.customer.config.ConfigUtility;
 import com.assignment.customer.service.CustomerService;
 
+/**
+ * Service implementation layer defining the monthly customer statement validation process and creating the final response JSON
+ * @author Payel
+ *
+ */
 @Service
 public class CustomerServiceImpl implements CustomerService{
 
@@ -30,8 +35,9 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Autowired
 	private ConfigUtility configUtility;
+	
 	/**
-	 * This method does the initial validation for the Input object.
+	 * This method does the initial validation for the request payload that came in as part of the input to the service
 	 * 
 	 * @param customerStatement
 	 * @param errorRecords
@@ -52,7 +58,7 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	/**
-	 * This method does the business logic to decide whether input payload has
+	 * This method does the business logic to decide whether request payload has
 	 * duplicate reference/incorrect balance, accordingly populate the OutputObject
 	 * and ErrorRecords and return.
 	 * 
@@ -63,32 +69,37 @@ public class CustomerServiceImpl implements CustomerService{
 	 */
 	public PostProcessingResult processCustomerRecords(List<CustomerStatement> customerStatements,
 			List<ErrorRecords> errorRecords, PostProcessingResult finalResultPostProcessing) {
-		// final Set<Integer> setToReturn = new HashSet<>();
-
+		
 		processStatementForErroneousInputs(customerStatements, errorRecords, finalResultPostProcessing);
 
+		//LOgic to populate the response JSON in case the request payload was valid and had no processing errors
 		if (finalResultPostProcessing.getResult() == null) {
 			finalResultPostProcessing.setResult(SUCCESSFUL);
 		}
 		return finalResultPostProcessing;
 	}
 
+	/**
+	 * Method to parse request payload, process the customer statement and generate the response JSON for error scenarios
+	 * @param customerStatements
+	 * @param errorRecords
+	 * @param finalResultPostProcessing
+	 * @return PostProcessingResult
+	 */
 	private PostProcessingResult processStatementForErroneousInputs(List<CustomerStatement> customerStatements,
 			List<ErrorRecords> errorRecords, PostProcessingResult finalResultPostProcessing) {
 
-		System.out.println("configUtility.getProperty(TEST_INTERNAL_SERVER_ERROR)"+configUtility.getProperty(TEST_INTERNAL_SERVER_ERROR));
 		final Set<Long> uniqueTransactionReferences = new HashSet<>();
 
 		for (CustomerStatement customerStatement : customerStatements) {
 			
-			//Hardcoding to throw "Internal Server Error" , checking the value from application.properties file
-			//if (TEST_INTERNAL_SERVER_ERROR.equals(customerStatement.getAccountNumber())) {
-			if (configUtility.getProperty(TEST_INTERNAL_SERVER_ERROR).equals(customerStatement.getAccountNumber())) {
+			//Dummy scenario/logic to throw "Internal Server Error", retrieving the test data from application.properties
+			if (configUtility.getProperty(RETRIEVE_INTERNAL_SERVER_TEST_PROPERTY_DATA).equals(customerStatement.getAccountNumber())) {
 				finalResultPostProcessing.setResult(INTERNAL_SERVER_ERROR);
 				return finalResultPostProcessing;
 			}
 			
-			// Check if INCORRECT_END_BALANCE
+			// Logic to validate balance for INCORRECT_END_BALANCE
 			if ((customerStatement.getStartBalance().add(customerStatement.getMutation())
 					.compareTo(customerStatement.getEndBalance())) != 0) {
 
@@ -104,7 +115,7 @@ public class CustomerServiceImpl implements CustomerService{
 				finalResultPostProcessing.setErrorRecords(errorRecords);
 			}
 
-			// Check if DUPLICATE_REFERENCE
+			// Logic to validate transaction reference number for DUPLICATE_REFERENCE
 			if (!uniqueTransactionReferences.add(customerStatement.getTransactionReference())) {
 				// setToReturn.add(customerStatement.getTransactionReference());
 				ErrorRecords errorRecord = new ErrorRecords();
