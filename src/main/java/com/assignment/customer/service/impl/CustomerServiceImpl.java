@@ -14,11 +14,13 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.assignment.customer.bean.CustomerStatement;
 import com.assignment.customer.bean.ErrorRecords;
 import com.assignment.customer.bean.PostProcessingResult;
+import com.assignment.customer.config.ConfigUtility;
 import com.assignment.customer.service.CustomerService;
 
 @Service
@@ -26,6 +28,8 @@ public class CustomerServiceImpl implements CustomerService{
 
 	Logger log = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
+	@Autowired
+	private ConfigUtility configUtility;
 	/**
 	 * This method does the initial validation for the Input object.
 	 * 
@@ -72,12 +76,14 @@ public class CustomerServiceImpl implements CustomerService{
 	private PostProcessingResult processStatementForErroneousInputs(List<CustomerStatement> customerStatements,
 			List<ErrorRecords> errorRecords, PostProcessingResult finalResultPostProcessing) {
 
+		System.out.println("configUtility.getProperty(TEST_INTERNAL_SERVER_ERROR)"+configUtility.getProperty(TEST_INTERNAL_SERVER_ERROR));
 		final Set<Long> uniqueTransactionReferences = new HashSet<>();
 
 		for (CustomerStatement customerStatement : customerStatements) {
 			
-			//Hardcoding to throw "Internal Server Error"
-			if (TEST_INTERNAL_SERVER_ERROR.equals(customerStatement.getAccountNumber())) {
+			//Hardcoding to throw "Internal Server Error" , checking the value from application.properties file
+			//if (TEST_INTERNAL_SERVER_ERROR.equals(customerStatement.getAccountNumber())) {
+			if (configUtility.getProperty(TEST_INTERNAL_SERVER_ERROR).equals(customerStatement.getAccountNumber())) {
 				finalResultPostProcessing.setResult(INTERNAL_SERVER_ERROR);
 				return finalResultPostProcessing;
 			}

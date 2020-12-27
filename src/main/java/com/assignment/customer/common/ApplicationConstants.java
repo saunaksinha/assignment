@@ -28,8 +28,8 @@ public final class ApplicationConstants {
 	@Value("${response.bad_request}")
     public static String BAD_REQUEST;
 	
-	@Value("${response.internal_server_error}")
-    public static String INTERNAL_SERVER_ERROR;*/
+	@Value("${TEST_INTERNAL_SERVER_ERROR}")
+    public static String TEST_INTERNAL_SERVER_ERROR;*/
 	
 	public static final String SUCCESSFUL = "SUCCESSFUL";
     public static final String DUPLICATE_REFERENCE = "DUPLICATE_REFERENCE";
